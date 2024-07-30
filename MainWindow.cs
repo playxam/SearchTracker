@@ -35,5 +35,7 @@ namespace SearchTracker
             themeWindow.ShowDialog();
             ApplySelectedTheme();
         }
+
+
     }
 }
