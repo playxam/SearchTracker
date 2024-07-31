@@ -7,12 +7,12 @@ using System.Windows.Forms;
 /// </summary>
 public static class ThemeManager
 {
-    private static string currentTheme = "Hell";
+    private static string currentTheme = "Standard";
 
     /// <summary>
     /// Wendet das ausgewählte Thema auf alle offenen Formulare an.
     /// </summary>
-    /// <param name="themeName">Der Name des zu verwendenden Themas ("Hell", "Dunkel").</param>
+    /// <param name="themeName">Der Name des zu verwendenden Themas ("Standard", "Dunkel", "Weiß", "Grau").</param>
     public static void ApplyTheme(string themeName)
     {
         Logger.Log($"Applying theme: {themeName}");
@@ -27,57 +27,85 @@ public static class ThemeManager
 
         foreach (Form form in Application.OpenForms)
         {
-            if (themeName == "Hell")
+            switch (themeName)
             {
-                form.BackColor = SystemColors.Control;
-                SetControlForeColor(form, SystemColors.ControlText); // Standard-Schriftfarbe
-                Logger.Log($"\tLight theme applied to form: {form.Name}");
+                case "Standard":
+                    ApplyStandardTheme(form);
+                    break;
+                case "Dunkel":
+                    ApplyDarkTheme(form);
+                    break;
+                case "Weiß":
+                    ApplyWhiteTheme(form);
+                    break;
+                case "Grau":
+                    ApplyGrayTheme(form);
+                    break;
+                default:
+                    Logger.Log($"Unknown theme: {themeName}");
+                    throw new ArgumentException($"Unknown theme: {themeName}");
             }
-            else if (themeName == "Dunkel")
-            {
-                form.BackColor = SystemColors.ControlDarkDark;
-                SetControlForeColor(form, Color.White); // Weiße Schriftfarbe für dunkles Theme
-                Logger.Log($"\tDark theme applied to form: {form.Name}");
-            }
+
             form.Invalidate();
             form.Update();
         }
     }
 
-    /// <summary>
-    /// Rekursive Methode zum Setzen der Schriftfarbe aller Steuerelemente in einer Form.
-    /// </summary>
-    /// <param name="control">Das Steuerelement, dessen Schriftfarbe gesetzt werden soll.</param>
-    /// <param name="color">Die zu setzende Schriftfarbe.</param>
-    private static void SetControlForeColor(Control control, Color color)
+    private static void ApplyStandardTheme(Form form)
+    {
+        form.BackColor = SystemColors.Control;
+        SetControlColors(form, SystemColors.ControlText, SystemColors.Control);
+        Logger.Log($"\tStandard theme applied to form: {form.Name}");
+    }
+
+    private static void ApplyDarkTheme(Form form)
+    {
+        form.BackColor = Color.FromArgb(45, 45, 48);
+        SetControlColors(form, Color.White, Color.FromArgb(30, 30, 30));
+        Logger.Log($"\tDark theme applied to form: {form.Name}");
+    }
+
+    private static void ApplyWhiteTheme(Form form)
+    {
+        form.BackColor = Color.WhiteSmoke;
+        SetControlColors(form, Color.Black, Color.WhiteSmoke);
+        Logger.Log($"\tWhite theme applied to form: {form.Name}");
+    }
+
+    private static void ApplyGrayTheme(Form form)
+    {
+        form.BackColor = Color.Gray;
+        SetControlColors(form, Color.Black, Color.LightGray);
+        Logger.Log($"\tGray theme applied to form: {form.Name}");
+    }
+
+    private static void SetControlColors(Control control, Color foreColor, Color backColor)
     {
         foreach (Control subControl in control.Controls)
         {
-            if (subControl is TextBox || subControl is Label || subControl is Button || subControl is CheckBox || subControl is RadioButton)
+            if (subControl is TextBox || subControl is ComboBox || subControl is ListBox || subControl is Label || subControl is CheckBox || subControl is RadioButton)
             {
-                subControl.ForeColor = color;
+                subControl.ForeColor = foreColor;
+                subControl.BackColor = backColor;
+            }
+            else if (subControl is Button)
+            {
+                subControl.BackColor = foreColor;
+                subControl.ForeColor = backColor;
             }
             if (subControl.HasChildren)
             {
-                SetControlForeColor(subControl, color);
+                SetControlColors(subControl, foreColor, backColor);
             }
         }
     }
 
-    /// <summary>
-    /// Gibt die verfügbaren Themen als String-Array zurück.
-    /// </summary>
-    /// <returns>Ein Array mit den Namen der verfügbaren Themen.</returns>
     public static string[] GetAvailableThemes()
     {
         Logger.Log("Fetching available themes.");
-        return new string[] { "Hell", "Dunkel" };
+        return new string[] { "Standard", "Dunkel", "Weiß", "Grau" };
     }
 
-    /// <summary>
-    /// Gibt das aktuelle Thema zurück.
-    /// </summary>
-    /// <returns>Der Name des aktuellen Themas als String.</returns>
     public static string GetCurrentTheme()
     {
         Logger.Log("Fetching current theme.");

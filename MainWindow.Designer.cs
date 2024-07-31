@@ -3,10 +3,18 @@
     partial class MainWindow
     {
         private System.ComponentModel.IContainer components = null;
+
+        // Set UI components to internal
+        internal System.Windows.Forms.TextBox txtDirInfo;
+        internal System.Windows.Forms.Label lblBlinkedDirNews;
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uIChangeToolStripMenuItem;
+        private System.Windows.Forms.TextBox txtDir;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnDir;
+        private System.Windows.Forms.Button btnSearchAction;
 
         /// <summary>
         /// Erforderliche Methode für die Designerunterstützung.
@@ -63,7 +71,7 @@
             this.txtDir.AcceptsReturn = true;
             this.txtDir.AcceptsTab = true;
             this.txtDir.AllowDrop = true;
-            this.txtDir.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDir.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.txtDir.Location = new System.Drawing.Point(35, 73);
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(330, 27);
@@ -75,7 +83,7 @@
             this.txtSearch.AcceptsReturn = true;
             this.txtSearch.AcceptsTab = true;
             this.txtSearch.AllowDrop = true;
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.txtSearch.Location = new System.Drawing.Point(703, 73);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(400, 27);
@@ -84,7 +92,7 @@
             // 
             // txtDirInfo
             // 
-            this.txtDirInfo.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtDirInfo.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.txtDirInfo.Location = new System.Drawing.Point(35, 116);
             this.txtDirInfo.Multiline = true;
             this.txtDirInfo.Name = "txtDirInfo";
@@ -94,10 +102,10 @@
             // 
             // lblBlinkedDirNews
             // 
-            this.lblBlinkedDirNews.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblBlinkedDirNews.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblBlinkedDirNews.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBlinkedDirNews.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.lblBlinkedDirNews.Location = new System.Drawing.Point(196, 37);
             this.lblBlinkedDirNews.Name = "lblBlinkedDirNews";
             this.lblBlinkedDirNews.Size = new System.Drawing.Size(371, 28);
@@ -107,17 +115,18 @@
             // 
             // btnDir
             // 
-            this.btnDir.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDir.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.btnDir.Location = new System.Drawing.Point(394, 69);
             this.btnDir.Name = "btnDir";
             this.btnDir.Size = new System.Drawing.Size(173, 34);
             this.btnDir.TabIndex = 5;
             this.btnDir.Text = "Auswahl";
             this.btnDir.UseVisualStyleBackColor = true;
+            this.btnDir.Click += new System.EventHandler(this.btnDir_Click);
             // 
             // btnSearchAction
             // 
-            this.btnSearchAction.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchAction.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.btnSearchAction.Location = new System.Drawing.Point(930, 116);
             this.btnSearchAction.Name = "btnSearchAction";
             this.btnSearchAction.Size = new System.Drawing.Size(173, 34);
@@ -142,7 +151,6 @@
             this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         /// <summary>
@@ -157,12 +165,5 @@
             }
             base.Dispose(disposing);
         }
-
-        private System.Windows.Forms.TextBox txtDir;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.TextBox txtDirInfo;
-        private System.Windows.Forms.Label lblBlinkedDirNews;
-        private System.Windows.Forms.Button btnDir;
-        private System.Windows.Forms.Button btnSearchAction;
     }
 }
