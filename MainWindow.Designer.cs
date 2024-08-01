@@ -40,18 +40,27 @@
             this.chckBoxCSV = new System.Windows.Forms.CheckBox();
             this.tabCollectRight = new System.Windows.Forms.TabControl();
             this.tabCachePanel = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabDirList = new System.Windows.Forms.TabPage();
             this.chckBxOnlyCacheRead = new System.Windows.Forms.CheckBox();
             this.btnCacheEmpty = new System.Windows.Forms.Button();
             this.lblCacheEmpty = new System.Windows.Forms.Label();
             this.lblCacheReadIn = new System.Windows.Forms.Label();
             this.btnCacheReadIn = new System.Windows.Forms.Button();
             this.listBxCache = new System.Windows.Forms.ListBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvTable = new System.Windows.Forms.DataGridView();
+            this.clmIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmType = new System.Windows.Forms.DataGridViewImageColumn();
+            this.clmName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pgStatusBar = new System.Windows.Forms.ProgressBar();
+            this.lblSearchStatus = new System.Windows.Forms.Label();
+            this.lvDir = new System.Windows.Forms.ListView();
             this.MainMenu.SuspendLayout();
             this.tabCollectRight.SuspendLayout();
             this.tabCachePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.tabDirList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -241,12 +250,12 @@
             // tabCollectRight
             // 
             this.tabCollectRight.Controls.Add(this.tabCachePanel);
-            this.tabCollectRight.Controls.Add(this.tabPage2);
+            this.tabCollectRight.Controls.Add(this.tabDirList);
             this.tabCollectRight.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabCollectRight.Location = new System.Drawing.Point(1148, 43);
+            this.tabCollectRight.Location = new System.Drawing.Point(1125, 43);
             this.tabCollectRight.Name = "tabCollectRight";
             this.tabCollectRight.SelectedIndex = 0;
-            this.tabCollectRight.Size = new System.Drawing.Size(386, 695);
+            this.tabCollectRight.Size = new System.Drawing.Size(379, 689);
             this.tabCollectRight.TabIndex = 14;
             // 
             // tabCachePanel
@@ -261,19 +270,20 @@
             this.tabCachePanel.Location = new System.Drawing.Point(4, 29);
             this.tabCachePanel.Name = "tabCachePanel";
             this.tabCachePanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCachePanel.Size = new System.Drawing.Size(378, 662);
+            this.tabCachePanel.Size = new System.Drawing.Size(371, 656);
             this.tabCachePanel.TabIndex = 0;
             this.tabCachePanel.Text = "Cache Section";
             // 
-            // tabPage2
+            // tabDirList
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(378, 662);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabDirList.Controls.Add(this.lvDir);
+            this.tabDirList.Location = new System.Drawing.Point(4, 29);
+            this.tabDirList.Name = "tabDirList";
+            this.tabDirList.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDirList.Size = new System.Drawing.Size(371, 656);
+            this.tabDirList.TabIndex = 1;
+            this.tabDirList.Text = "Verzeichnis Inhalt";
+            this.tabDirList.UseVisualStyleBackColor = true;
             // 
             // chckBxOnlyCacheRead
             // 
@@ -289,7 +299,7 @@
             // btnCacheEmpty
             // 
             this.btnCacheEmpty.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.btnCacheEmpty.Location = new System.Drawing.Point(199, 75);
+            this.btnCacheEmpty.Location = new System.Drawing.Point(192, 75);
             this.btnCacheEmpty.Name = "btnCacheEmpty";
             this.btnCacheEmpty.Size = new System.Drawing.Size(173, 34);
             this.btnCacheEmpty.TabIndex = 15;
@@ -300,7 +310,7 @@
             // 
             this.lblCacheEmpty.AutoSize = true;
             this.lblCacheEmpty.BackColor = System.Drawing.Color.Transparent;
-            this.lblCacheEmpty.Location = new System.Drawing.Point(6, 82);
+            this.lblCacheEmpty.Location = new System.Drawing.Point(4, 82);
             this.lblCacheEmpty.Name = "lblCacheEmpty";
             this.lblCacheEmpty.Size = new System.Drawing.Size(158, 20);
             this.lblCacheEmpty.TabIndex = 16;
@@ -310,7 +320,7 @@
             // 
             this.lblCacheReadIn.AutoSize = true;
             this.lblCacheReadIn.BackColor = System.Drawing.Color.Transparent;
-            this.lblCacheReadIn.Location = new System.Drawing.Point(201, 165);
+            this.lblCacheReadIn.Location = new System.Drawing.Point(195, 165);
             this.lblCacheReadIn.Name = "lblCacheReadIn";
             this.lblCacheReadIn.Size = new System.Drawing.Size(171, 20);
             this.lblCacheReadIn.TabIndex = 18;
@@ -330,23 +340,96 @@
             // 
             this.listBxCache.FormattingEnabled = true;
             this.listBxCache.ItemHeight = 20;
-            this.listBxCache.Location = new System.Drawing.Point(6, 245);
+            this.listBxCache.Location = new System.Drawing.Point(8, 245);
             this.listBxCache.Name = "listBxCache";
-            this.listBxCache.Size = new System.Drawing.Size(366, 144);
+            this.listBxCache.Size = new System.Drawing.Size(357, 144);
             this.listBxCache.TabIndex = 19;
             // 
-            // dataGridView1
+            // dgvTable
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(58, 282);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(967, 452);
-            this.dataGridView1.TabIndex = 15;
+            this.dgvTable.AllowUserToAddRows = false;
+            this.dgvTable.AllowUserToDeleteRows = false;
+            this.dgvTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmIndex,
+            this.clmPath,
+            this.clmType,
+            this.clmName,
+            this.clmResult});
+            this.dgvTable.Location = new System.Drawing.Point(35, 282);
+            this.dgvTable.Name = "dgvTable";
+            this.dgvTable.ReadOnly = true;
+            this.dgvTable.Size = new System.Drawing.Size(1018, 450);
+            this.dgvTable.TabIndex = 15;
+            // 
+            // clmIndex
+            // 
+            this.clmIndex.HeaderText = "Auflistung";
+            this.clmIndex.Name = "clmIndex";
+            this.clmIndex.ReadOnly = true;
+            this.clmIndex.Width = 40;
+            // 
+            // clmPath
+            // 
+            this.clmPath.HeaderText = "Dokumenten-Pfad";
+            this.clmPath.Name = "clmPath";
+            this.clmPath.ReadOnly = true;
+            this.clmPath.Width = 350;
+            // 
+            // clmType
+            // 
+            this.clmType.HeaderText = "Typ";
+            this.clmType.Name = "clmType";
+            this.clmType.ReadOnly = true;
+            this.clmType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmType.Width = 35;
+            // 
+            // clmName
+            // 
+            this.clmName.HeaderText = "Dokumenten Name";
+            this.clmName.Name = "clmName";
+            this.clmName.ReadOnly = true;
+            this.clmName.Width = 275;
+            // 
+            // clmResult
+            // 
+            this.clmResult.HeaderText = "Ergebnisse";
+            this.clmResult.Name = "clmResult";
+            this.clmResult.ReadOnly = true;
+            this.clmResult.Width = 400;
+            // 
+            // pgStatusBar
+            // 
+            this.pgStatusBar.Location = new System.Drawing.Point(728, 744);
+            this.pgStatusBar.Name = "pgStatusBar";
+            this.pgStatusBar.Size = new System.Drawing.Size(325, 23);
+            this.pgStatusBar.TabIndex = 16;
+            // 
+            // lblSearchStatus
+            // 
+            this.lblSearchStatus.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearchStatus.Location = new System.Drawing.Point(35, 744);
+            this.lblSearchStatus.Name = "lblSearchStatus";
+            this.lblSearchStatus.Size = new System.Drawing.Size(665, 23);
+            this.lblSearchStatus.TabIndex = 17;
+            this.lblSearchStatus.Text = "Durchsucht wird:";
+            // 
+            // lvDir
+            // 
+            this.lvDir.HideSelection = false;
+            this.lvDir.Location = new System.Drawing.Point(0, 0);
+            this.lvDir.Name = "lvDir";
+            this.lvDir.Size = new System.Drawing.Size(371, 653);
+            this.lvDir.TabIndex = 0;
+            this.lvDir.UseCompatibleStateImageBehavior = false;
             // 
             // MainWindow
             // 
             this.ClientSize = new System.Drawing.Size(1616, 779);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.lblSearchStatus);
+            this.Controls.Add(this.pgStatusBar);
+            this.Controls.Add(this.dgvTable);
             this.Controls.Add(this.tabCollectRight);
             this.Controls.Add(this.chckBoxCSV);
             this.Controls.Add(this.chckBxXML);
@@ -370,7 +453,8 @@
             this.tabCollectRight.ResumeLayout(false);
             this.tabCachePanel.ResumeLayout(false);
             this.tabCachePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.tabDirList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -399,12 +483,20 @@
         private System.Windows.Forms.TabControl tabCollectRight;
         private System.Windows.Forms.TabPage tabCachePanel;
         private System.Windows.Forms.CheckBox chckBxOnlyCacheRead;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabDirList;
         private System.Windows.Forms.Button btnCacheEmpty;
         private System.Windows.Forms.Label lblCacheEmpty;
         private System.Windows.Forms.Label lblCacheReadIn;
         private System.Windows.Forms.Button btnCacheReadIn;
         private System.Windows.Forms.ListBox listBxCache;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvTable;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmIndex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmPath;
+        private System.Windows.Forms.DataGridViewImageColumn clmType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmResult;
+        private System.Windows.Forms.ProgressBar pgStatusBar;
+        private System.Windows.Forms.Label lblSearchStatus;
+        private System.Windows.Forms.ListView lvDir;
     }
 }

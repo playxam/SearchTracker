@@ -1,6 +1,9 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using System.Timers;
+using System.IO;
+using System.Linq;
+
 
 namespace SearchTracker
 {
@@ -121,5 +124,59 @@ namespace SearchTracker
                 textBox.Visible = false;
             }
         }
+
+
+        /// <summary>
+        /// Lädt den Inhalt des ausgewählten Verzeichnisses und zeigt die unterstützten Dateien in der lvDir an.
+        /// </summary>
+        /// <param name="directoryPath">Der Pfad des zu durchsuchenden Verzeichnisses.</param>
+        /// <param name="lvDir">Die ListView, in der die Dateien angezeigt werden sollen.</param>
+        public static void LoadDirectoryContents(string directoryPath, ListView lvDir)
+        {
+            // Unterstützte Dateiformate
+            string[] supportedExtensions = new[] { ".docx", ".xlsx", ".pptx", ".pdf", ".csv", ".txt", ".xml" };
+
+            // Überprüfen, ob das Verzeichnis existiert
+            if (!Directory.Exists(directoryPath))
+            {
+                Logger.Log($"Das Verzeichnis '{directoryPath}' existiert nicht oder ist nicht zugänglich.");
+                MessageBox.Show("Das ausgewählte Verzeichnis existiert nicht oder ist nicht zugänglich.");
+                return;
+            }
+
+            // Dateien im Verzeichnis abrufen
+            var files = Directory.GetFiles(directoryPath)
+                                 .Where(file => supportedExtensions.Contains(Path.GetExtension(file).ToLower()))
+                                 .ToList();
+
+            // lvDir leeren und Dateien hinzufügen
+            lvDir.Items.Clear();
+            lvDir.View = View.Details; // Setze den View-Modus auf Details
+            lvDir.Columns.Clear(); // Entferne alle alten Spalten
+            lvDir.Columns.Add("Dateiname", -2, HorizontalAlignment.Left); // Füge eine neue Spalte hinzu
+
+            bool useBlueColor = true;
+
+            // Jedes unterstützte Datei zum lvDir hinzufügen
+            foreach (var file in files)
+            {
+                var item = new ListViewItem(Path.GetFileName(file))
+                {
+                    BackColor = useBlueColor ? Color.LightBlue : Color.LightGreen,
+                    ForeColor = Color.Black
+                };
+                lvDir.Items.Add(item);
+                useBlueColor = !useBlueColor; // Wechsel der Farbe für den nächsten Eintrag
+            }
+
+            lvDir.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            Logger.Log($"Inhalt des Verzeichnisses '{directoryPath}' geladen und angezeigt.");
+        }
+
+
+
+
+
+
     }
 }

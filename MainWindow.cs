@@ -20,6 +20,9 @@ namespace SearchTracker
             fileMonitorViewModel = new FileMonitorViewModel();
             fileMonitorViewModel.OnDirectoryChanged += UpdateDirectoryChangeUI;
             InitializeFileMonitoring();
+
+            // ListView initialisieren
+            //UIHandling.InitializeListView(lvDir);
         }
 
         /// <summary>
@@ -31,9 +34,13 @@ namespace SearchTracker
             fileMonitorViewModel.StartMonitoring(txtDir.Text);
         }
 
+
         /// <summary>
-        /// Öffnet den Dialog zur Auswahl eines Verzeichnisses und startet die Überwachung.
+        /// Event-Handler für den Button-Klick, um ein Verzeichnis auszuwählen.
+        /// Öffnet einen Ordnerauswahldialog, speichert den ausgewählten Pfad und lädt die Dateien in die ListView.
         /// </summary>
+        /// <param name="sender">Das auslösende Objekt.</param>
+        /// <param name="e">Ereignisdaten.</param>        
         private void btnDir_Click(object sender, EventArgs e)
         {
             try
@@ -52,16 +59,18 @@ namespace SearchTracker
                         Properties.Settings.Default.LastDirectory = selectedPath;
                         Properties.Settings.Default.Save();
                         Logger.Log($"Selected directory: {selectedPath}");
-                        fileMonitorViewModel.StartMonitoring(selectedPath);
+                        UIHandling.LoadDirectoryContents(selectedPath, lvDir); // Verweis auf lvDir
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Log($"Error selecting directory: {ex.Message}");
+                Logger.Log($"Fehler beim Auswählen des Verzeichnisses: {ex.Message}");
                 MessageBox.Show("Ein Fehler ist beim Auswählen des Verzeichnisses aufgetreten. Bitte versuchen Sie es erneut.");
             }
         }
+
+
 
 
         /// <summary>
